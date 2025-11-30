@@ -1,19 +1,19 @@
 FROM alpine:latest
 
-RUN apk add --no-cache bash wget tar
+RUN apk update && apk add --no-cache bash wget tar
 
-# دانلود و extract فایل
+# ایجاد دایرکتوری و دانلود
+WORKDIR /app
 RUN wget -O x-ui.tar.gz https://github.com/vaxilu/x-ui/releases/latest/download/x-ui-linux-amd64.tar.gz
 RUN tar -xzf x-ui.tar.gz
-RUN ls -la  # برای debug
 
-# تغییر به دایرکتوری x-ui
-WORKDIR x-ui
-RUN ls -la  # برای debug
+# رفتن به دایرکتوری x-ui و دادن دسترسی اجرا
+WORKDIR /app/x-ui
 RUN chmod +x x-ui
+RUN ls -la  # برای اطمینان از وجود فایل
 
-# نمایش فایل‌ها
-RUN pwd
-RUN ls -la
+# پورت‌ها
+EXPOSE 54321 8080 80 443
 
-CMD ["./x-ui"]
+# اجرای سرویس
+CMD ["/bin/bash", "-c", "pwd && ls -la && ./x-ui"]
