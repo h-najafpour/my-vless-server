@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: my-vless
+    name: v2ray-server
     env: docker
     plan: free
     docker:
